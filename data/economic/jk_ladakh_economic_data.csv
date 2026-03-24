@@ -1,0 +1,82 @@
+fiscal_year,region,indicator,value,unit,source,notes
+2014-15,J&K,GSDP_current_prices,98367,Rs Crore,StatisticsTimes/RBI,Current prices
+2015-16,J&K,GSDP_current_prices,117168,Rs Crore,StatisticsTimes/RBI,Current prices
+2016-17,J&K,GSDP_current_prices,124848,Rs Crore,StatisticsTimes/RBI,Current prices
+2017-18,J&K,GSDP_current_prices,139709,Rs Crore,StatisticsTimes/RBI,Current prices
+2018-19,J&K,GSDP_current_prices,159859,Rs Crore,StatisticsTimes/RBI,Current prices
+2019-20,J&K UT,GSDP_current_prices,164103,Rs Crore,StatisticsTimes/RBI,Post bifurcation - J&K UT only
+2020-21,J&K UT,GSDP_current_prices,167793,Rs Crore,StatisticsTimes/RBI,COVID year
+2021-22,J&K UT,GSDP_current_prices,188561,Rs Crore,StatisticsTimes/RBI,
+2022-23,J&K UT,GSDP_current_prices,209816,Rs Crore,StatisticsTimes/RBI,
+2023-24,J&K UT,GSDP_current_prices,236059,Rs Crore,StatisticsTimes/RBI,
+2024-25,J&K UT,GSDP_current_prices,262458,Rs Crore,StatisticsTimes/IBEF,Advance estimate
+2014-15,J&K,GSDP_constant_2011_12,82372,Rs Crore,StatisticsTimes/MOSPI,Base year 2011-12 (values appear scaled - see notes)
+2015-16,J&K,GSDP_constant_2011_12,97001,Rs Crore,StatisticsTimes/MOSPI,Base year 2011-12
+2016-17,J&K,GSDP_constant_2011_12,100203,Rs Crore,StatisticsTimes/MOSPI,Base year 2011-12
+2017-18,J&K,GSDP_constant_2011_12,106624,Rs Crore,StatisticsTimes/MOSPI,Base year 2011-12
+2018-19,J&K,GSDP_constant_2011_12,115062,Rs Crore,StatisticsTimes/MOSPI,Base year 2011-12
+2019-20,J&K UT,GSDP_constant_2011_12,113919,Rs Crore,StatisticsTimes/MOSPI,Post bifurcation; slight contraction
+2020-21,J&K UT,GSDP_constant_2011_12,112400,Rs Crore,StatisticsTimes/MOSPI,COVID contraction
+2021-22,J&K UT,GSDP_constant_2011_12,115402,Rs Crore,StatisticsTimes/MOSPI,Recovery
+2022-23,J&K UT,GSDP_constant_2011_12,122640,Rs Crore,StatisticsTimes/MOSPI,
+2023-24,J&K UT,GSDP_constant_2011_12,133421,Rs Crore,StatisticsTimes/MOSPI,
+2024-25,J&K UT,GSDP_constant_2011_12,143649,Rs Crore,StatisticsTimes/MOSPI,Advance estimate; 7.06% real growth
+2014-15,J&K,per_capita_GSDP_current,75656,Rs,StatisticsTimes/RBI,Per capita GSDP at current prices
+2015-16,J&K,per_capita_GSDP_current,89237,Rs,StatisticsTimes/RBI,
+2016-17,J&K,per_capita_GSDP_current,94267,Rs,StatisticsTimes/RBI,
+2017-18,J&K,per_capita_GSDP_current,104667,Rs,StatisticsTimes/RBI,
+2018-19,J&K,per_capita_GSDP_current,118828,Rs,StatisticsTimes/RBI,
+2019-20,J&K UT,per_capita_GSDP_current,123730,Rs,StatisticsTimes/RBI,
+2020-21,J&K UT,per_capita_GSDP_current,125546,Rs,StatisticsTimes/RBI,
+2021-22,J&K UT,per_capita_GSDP_current,140037,Rs,StatisticsTimes/RBI,
+2022-23,J&K UT,per_capita_GSDP_current,154709,Rs,StatisticsTimes/RBI,
+2023-24,J&K UT,per_capita_GSDP_current,172811,Rs,StatisticsTimes/RBI,
+2024-25,J&K UT,per_capita_GSDP_current,190767,Rs,StatisticsTimes/IBEF,Advance estimate
+2014-15,J&K,per_capita_NSDP_constant,51649,Rs,StatisticsTimes/MOSPI,Per capita NSDP at constant 2011-12 prices
+2015-16,J&K,per_capita_NSDP_constant,61388,Rs,StatisticsTimes/MOSPI,
+2016-17,J&K,per_capita_NSDP_constant,62398,Rs,StatisticsTimes/MOSPI,
+2017-18,J&K,per_capita_NSDP_constant,65621,Rs,StatisticsTimes/MOSPI,
+2018-19,J&K,per_capita_NSDP_constant,69183,Rs,StatisticsTimes/MOSPI,
+2019-20,J&K UT,per_capita_NSDP_constant,68437,Rs,StatisticsTimes/MOSPI,Decline post-bifurcation
+2020-21,J&K UT,per_capita_NSDP_constant,65539,Rs,StatisticsTimes/MOSPI,COVID decline
+2021-22,J&K UT,per_capita_NSDP_constant,66029,Rs,StatisticsTimes/MOSPI,
+2022-23,J&K UT,per_capita_NSDP_constant,69627,Rs,StatisticsTimes/MOSPI,
+2023-24,J&K UT,per_capita_NSDP_constant,75955,Rs,StatisticsTimes/MOSPI,
+2024-25,J&K UT,per_capita_NSDP_constant,81554,Rs,StatisticsTimes/MOSPI,Advance estimate
+2014-15,J&K,power_purchase_cost,4719,Rs Crore,Greater Kashmir/PDD,Cost of power purchased from outside
+2015-16,J&K,power_purchase_cost,4803,Rs Crore,Greater Kashmir/PDD,
+2016-17,J&K,power_purchase_cost,4752,Rs Crore,Greater Kashmir/PDD,
+2017-18,J&K,power_purchase_cost,4844,Rs Crore,Greater Kashmir/PDD,
+2018-19,J&K,power_purchase_cost,6561,Rs Crore,Greater Kashmir/PDD,Sharp increase
+2019-20,J&K UT,power_purchase_cost,6987,Rs Crore,Greater Kashmir/PDD,
+2019-20,J&K UT,power_purchase_units,13345,MU,Greater Kashmir/PDD,Million Units purchased
+2020-21,J&K UT,power_purchase_cost,7047,Rs Crore,Greater Kashmir/PDD,
+2020-21,J&K UT,power_purchase_units,14362,MU,Greater Kashmir/PDD,
+2021-22,J&K UT,power_purchase_cost,8197,Rs Crore,Greater Kashmir/PDD,
+2021-22,J&K UT,power_purchase_units,16207,MU,Greater Kashmir/PDD,
+2022-23,J&K UT,power_purchase_cost,8200,Rs Crore,Greater Kashmir/PDD,Approximate
+2023-24,J&K UT,power_purchase_cost,9250,Rs Crore,Greater Kashmir/PDD,
+2015,J&K,electricity_consumption,7144,GWh,CEIC/CEA,Calendar year; electricity sold by utilities
+2020,J&K UT,electricity_consumption,10623,GWh,CEIC/CEA,All-time high
+2023,J&K UT,electricity_consumption,9769,GWh,CEIC/CEA,
+2024,J&K UT,electricity_consumption,10610,GWh,CEIC/CEA,
+2016,J&K,tourist_arrivals_total,14280000,Persons,Govt of J&K/Parliament,Jammu 12280000 + Kashmir 2000000
+2017,J&K,tourist_arrivals_total,15240000,Persons,Govt of J&K/Parliament,Jammu 13310000 + Kashmir 1930000
+2018,J&K,tourist_arrivals_total,18050000,Persons,Govt of J&K/Parliament,Jammu 16040000 + Kashmir 2010000
+2020,J&K UT,tourist_arrivals_total,2519524,Persons,CEIC/Ministry of Tourism,COVID year - record low
+2021,J&K UT,tourist_arrivals_total,11316534,Persons,Govt of J&K,Jammu 10650757 + Kashmir 665777
+2022,J&K UT,tourist_arrivals_total,18884317,Persons,Govt of J&K,Jammu 16210875 + Kashmir 2673442
+2023,J&K UT,tourist_arrivals_total,21180011,Persons,Govt of J&K/IBEF,Jammu 18024176 + Kashmir 3155835
+2024,J&K UT,tourist_arrivals_total,23590081,Persons,Govt of J&K/IBEF,Jammu 20091379 + Kashmir 3498702
+2019,Ladakh,tourist_arrivals_total,279000,Persons,MHA/Lok Sabha,First year as UT
+2022,Ladakh,tourist_arrivals_total,531000,Persons,MHA/Lok Sabha,
+2023,Ladakh,tourist_arrivals_total,525000,Persons,MHA/Lok Sabha,Domestic 489059 + Foreign 36315
+2024,Ladakh,tourist_arrivals_total,376000,Persons,MHA/Lok Sabha,Domestic 336682 + Foreign 39704; decline
+2023-24,Ladakh UT,GSDP_current_prices,8304,Rs Crore,StatisticsTimes/MOSPI,Smallest UT economy; ranks 34th
+2024-25,J&K UT,sector_services_share,61.7,%,J&K Economic Survey 2024-25,Share of GSVA
+2024-25,J&K UT,sector_primary_share,20.0,%,J&K Economic Survey 2024-25,Agriculture share declining
+2024-25,J&K UT,sector_secondary_share,18.3,%,J&K Economic Survey 2024-25,Below national avg of 25.9%
+2024-25,J&K UT,installed_power_capacity,3607.09,MW,IBEF,Hydro 2339.88 + Thermal 881.22 + Renewable 318.01 + Nuclear 67.98
+2024-25,J&K UT,unemployment_rate,6.1,%,J&K Economic Survey,Down from 6.7% in 2019-20
+2024-25,J&K UT,GSDP_growth_real,7.06,%,J&K Economic Survey,Real growth rate
+2025-26,J&K UT,GSDP_growth_real_projected,5.82,%,J&K Economic Survey,Projected
