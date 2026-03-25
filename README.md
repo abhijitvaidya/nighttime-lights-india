@@ -29,7 +29,6 @@ nighttime-lights-india/
 │   ├── raster/                 # Pre-downloaded VIIRS GeoTIFFs (Srinagar, Leh, Manali, Ayodhya)
 │   └── economic/               # Official J&K/Ladakh economic data
 ├── output/                     # Generated charts, CSVs, and analysis reports
-└── blog/                       # Blog post draft
 ```
 
 ## Quick Start

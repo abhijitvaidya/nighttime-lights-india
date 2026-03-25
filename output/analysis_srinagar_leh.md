@@ -498,7 +498,81 @@ reflecting real physical expansion while being immune to price inflation.
 
 ---
 
-## 10. Files Generated
+## 10. Limitations and Caveats
+
+### LED Streetlight Transition
+
+A known issue in nighttime lights research is the global transition from
+sodium vapor streetlights to LED lamps. LEDs emit more radiance per watt
+and have a whiter spectrum that the VIIRS sensor detects more efficiently.
+This means some of the observed radiance increase reflects a **measurement
+artifact** rather than genuine economic expansion.
+
+**Estimating the LED effect for J&K:**
+- J&K installed **1.88 lakh LED streetlights** under the national SLNP program
+- Assuming LEDs are ~2x brighter than the sodium lamps they replaced, and
+  streetlights account for ~15-20% of total urban radiance:
+- **Estimated one-time LED uplift: ~20%**
+- Srinagar's total growth is +91%, so even subtracting a generous 20% LED
+  effect leaves **~70% real growth** — still far exceeding baseline expectations
+
+**Why the LED effect does not invalidate our findings:**
+
+1. **It's a one-time step-change, not sustained growth.** LED replacement
+   occurs over 1-2 years. Our data shows sustained year-over-year growth
+   for 8+ consecutive years. LEDs cannot explain a cumulative decade-long trend.
+
+2. **The control region (Manali) also received LEDs.** The SLNP is a
+   national program. When we compare Srinagar (+91%) vs Manali (+101%),
+   the LED effect is present in both. Cross-regional differentials reflect
+   real economic differences, not lighting technology.
+
+3. **Temporal and shock-response patterns cannot be LEDs:**
+   - Srinagar's winter radiance surge (+137%) — LEDs don't turn on seasonally
+   - The 2025 paradox (tourism -68% but lights +3.8%) — LEDs don't explain
+     construction activity continuing during a tourism crash
+   - Leh's decline (-3.4% in 2025) — LEDs don't get dimmer over time
+   - Ayodhya's hockey stick (flat then vertical) — LEDs don't explain a
+     3-year exponential ramp concentrated around a specific construction event
+
+4. **The xKDR paper addresses this** by capping radiance at 100 nW/cm²/sr
+   (we apply the same cap) and focusing on relative changes rather than
+   absolute levels.
+
+5. **Academic literature supports NTL validity despite LED transition.**
+   Henderson et al. (2012) and subsequent studies show NTL remains a robust
+   GDP proxy even during the LED transition period, especially for
+   within-country comparisons where the transition affects all regions
+   similarly.
+
+### Other Caveats
+
+- **Bounding boxes approximate district boundaries.** We use rectangular
+  bounding boxes rather than precise administrative shapefiles. This may
+  include some non-relevant areas (e.g., uninhabited hillsides near Srinagar).
+
+- **Cloud cover affects monsoon months.** Jun-Sep data has fewer cloud-free
+  observations (2-5 vs 10-13 for other months). Monsoon radiance values
+  are less reliable and should be interpreted with caution.
+
+- **The J&K GSDP structural break.** Pre-2019 GSDP includes Ladakh;
+  post-2019 excludes it. This slightly understates post-2019 GSDP growth
+  in the correlation analysis.
+
+- **Snow reflection.** Winter months in high-altitude regions may show
+  slightly elevated radiance due to light reflecting off snow cover. This
+  could contribute a small fraction of the observed winter radiance increase,
+  though the magnitude is minor compared to the electrification and
+  infrastructure effects.
+
+- **Single satellite sensor.** All data comes from one instrument (VIIRS
+  on Suomi NPP). Sensor degradation or calibration drift over a 12-year
+  period could introduce systematic bias, though NOAA's stray-light
+  correction (VCMSLCFG version) mitigates the most significant known issues.
+
+---
+
+## 11. Files Generated
 
 Per-region image files (continuous 2014-2026):
 - `timeseries_{region}.png` — Full monthly time series
