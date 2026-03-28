@@ -14,7 +14,7 @@ Inspired by ["Shedding Light on the Russia-Ukraine War"](https://www.xkdr.org/pa
 ## Validation
 
 Nighttime lights correlate strongly with official J&K economic indicators:
-- GSDP at current prices: r = 0.97
+- GSDP at current prices: r = 0.35 (nominal; distorted by inflation)
 - GSDP at constant prices: r = 0.93
 - Power purchase costs: r = 0.95
 
@@ -81,7 +81,7 @@ REGIONS['my_city'] = {
 
 ## Blog Post
 
-[What Satellites Reveal About India's Most Transformed Cities](https://abhijitvaidya.substack.com/) <!-- TODO: Replace with actual post URL -->
+[What Satellites Reveal About India's Most Transformed Cities](https://abhijitvaidya.substack.com/p/what-satellites-reveal-about-indias)
 
 ## Credits
 

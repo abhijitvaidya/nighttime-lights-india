@@ -40,7 +40,8 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.ticker as mticker
 
-warnings.filterwarnings('ignore')
+warnings.filterwarnings('ignore', category=RuntimeWarning)
+warnings.filterwarnings('ignore', category=FutureWarning)
 
 # ── Region definitions ──────────────────────────────────────────────
 # Add new regions here: name -> (bbox [west, south, east, north], description)
@@ -261,7 +262,8 @@ def extract_radiance(tif_path, region_geom):
                 result['cf_quality'] = 'unknown'
 
             return result
-        except Exception:
+        except Exception as e:
+            print(f'Warning: failed to extract radiance from {tif_path}: {e}')
             return None
 
 
@@ -350,7 +352,7 @@ def add_season_columns(df):
 
 # ── Helper for event markers ────────────────────────────────────────
 
-def _add_event_markers(ax, rkey, date_axis=True):
+def add_event_markers(ax, rkey, date_axis=True):
     """Add region-specific event markers and COVID shading to an axis."""
     rinfo = REGIONS[rkey]
     events = rinfo.get('events', [])
@@ -374,7 +376,7 @@ def _add_event_markers(ax, rkey, date_axis=True):
             ax.axvspan(2020, 2022, alpha=0.12, color='gray', label='COVID gap')
 
 
-def _get_baseline_and_labels(rdf):
+def get_baseline_and_labels(rdf):
     """Determine baseline period and labels based on available data."""
     early = rdf[rdf['period'] == 'Early (2014-2016)']
     pre = rdf[rdf['period'] == 'Pre-Art.370 (2017-Jul 2019)']
@@ -404,14 +406,14 @@ def plot_all_charts(df, regions):
         if rdf.empty:
             continue
 
-        _plot_timeseries_single(rdf, rkey, rinfo)
-        _plot_seasonal_single(rdf, rkey, rinfo)
-        _plot_tourism_season_single(rdf, rkey, rinfo)
-        _plot_yearly_trend_single(rdf, rkey, rinfo)
-        _plot_winter_vs_summer_single(rdf, rkey, rinfo)
+        plot_timeseries_single(rdf, rkey, rinfo)
+        plot_seasonal_single(rdf, rkey, rinfo)
+        plot_tourism_season_single(rdf, rkey, rinfo)
+        plot_yearly_trend_single(rdf, rkey, rinfo)
+        plot_winter_vs_summer_single(rdf, rkey, rinfo)
 
 
-def _plot_timeseries_single(rdf, rkey, rinfo):
+def plot_timeseries_single(rdf, rkey, rinfo):
     """Time series for a single region."""
     fig, ax = plt.subplots(figsize=(15, 5))
 
@@ -430,7 +432,7 @@ def _plot_timeseries_single(rdf, rkey, rinfo):
             ax.axvspan(datetime(year, 12, 1), datetime(end_yr, 2, 28),
                        alpha=0.08, color='lightblue')
 
-    _add_event_markers(ax, rkey)
+    add_event_markers(ax, rkey)
 
     ax.set_ylabel('Total Radiance', fontsize=12)
     ax.set_title(f'{rinfo["label"]} -- Nighttime Lights Time Series', fontsize=14, fontweight='bold')
@@ -449,9 +451,9 @@ def _plot_timeseries_single(rdf, rkey, rinfo):
     print(f'Saved: {fname}')
 
 
-def _plot_seasonal_single(rdf, rkey, rinfo):
+def plot_seasonal_single(rdf, rkey, rinfo):
     """Monthly pattern comparison for a single region."""
-    baseline, post, bl_label, post_label = _get_baseline_and_labels(rdf)
+    baseline, post, bl_label, post_label = get_baseline_and_labels(rdf)
 
     if baseline.empty or post.empty:
         return
@@ -477,7 +479,7 @@ def _plot_seasonal_single(rdf, rkey, rinfo):
         if bv > 0:
             pct = ((pv - bv) / bv) * 100
             ax.text(x[i] + width/2, pv + max(post_vals) * 0.02,
-                    f'+{pct:.0f}%', ha='center', va='bottom', fontsize=7,
+                    f'{pct:+.0f}%', ha='center', va='bottom', fontsize=7,
                     fontweight='bold', color='#E65100')
 
     ax.set_xticks(x)
@@ -503,9 +505,9 @@ def _plot_seasonal_single(rdf, rkey, rinfo):
     print(f'Saved: {fname}')
 
 
-def _plot_tourism_season_single(rdf, rkey, rinfo):
+def plot_tourism_season_single(rdf, rkey, rinfo):
     """Tourism season comparison for a single region."""
-    baseline, post, bl_label, post_label = _get_baseline_and_labels(rdf)
+    baseline, post, bl_label, post_label = get_baseline_and_labels(rdf)
     if baseline.empty or post.empty:
         return
 
@@ -528,7 +530,7 @@ def _plot_tourism_season_single(rdf, rkey, rinfo):
         if bv > 0:
             pct = ((pv - bv) / bv) * 100
             ax.text(x[i] + width/2, pv + max(post_vals) * 0.02,
-                    f'+{pct:.0f}%', ha='center', va='bottom', fontsize=9,
+                    f'{pct:+.0f}%', ha='center', va='bottom', fontsize=9,
                     fontweight='bold')
 
     short_labels = ['Peak Tourist\n(Apr-Jun)', 'Monsoon\n(Jul-Sep)',
@@ -547,7 +549,7 @@ def _plot_tourism_season_single(rdf, rkey, rinfo):
     print(f'Saved: {fname}')
 
 
-def _plot_yearly_trend_single(rdf, rkey, rinfo):
+def plot_yearly_trend_single(rdf, rkey, rinfo):
     """Yearly trend for a single region."""
     fig, ax = plt.subplots(figsize=(12, 6))
 
@@ -556,7 +558,7 @@ def _plot_yearly_trend_single(rdf, rkey, rinfo):
             marker=rinfo['marker'], linewidth=2.5, markersize=8,
             label=rinfo['label'])
 
-    _add_event_markers(ax, rkey, date_axis=False)
+    add_event_markers(ax, rkey, date_axis=False)
 
     ax.set_xlabel('Year', fontsize=12)
     ax.set_ylabel('Average Total Radiance', fontsize=12)
@@ -572,7 +574,7 @@ def _plot_yearly_trend_single(rdf, rkey, rinfo):
     print(f'Saved: {fname}')
 
 
-def _plot_winter_vs_summer_single(rdf, rkey, rinfo):
+def plot_winter_vs_summer_single(rdf, rkey, rinfo):
     """Winter vs summer comparison for a single region."""
     fig, ax = plt.subplots(figsize=(10, 6))
 
