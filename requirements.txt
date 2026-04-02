@@ -5,3 +5,4 @@ rasterio
 shapely
 earthengine-api
 requests
+scipy

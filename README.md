@@ -24,6 +24,7 @@ Nighttime lights correlate strongly with official J&K economic indicators:
 nighttime-lights-india/
 ├── notebook.ipynb              # Full analysis walkthrough (start here)
 ├── ntl_analyze.py              # Reusable analysis library
+├── nighttime_lights.py         # Python port of xKDR's NighttimeLights.jl (bias correction)
 ├── correlate_official_data.py  # GSDP/power correlation analysis
 ├── data/
 │   ├── raster/                 # Pre-downloaded VIIRS GeoTIFFs (Srinagar, Leh, Manali, Ayodhya)
@@ -36,7 +37,7 @@ nighttime-lights-india/
 ### 1. Install dependencies
 
 ```bash
-pip install numpy pandas matplotlib rasterio shapely earthengine-api requests
+pip install -r requirements.txt
 ```
 
 ### 2. Run the notebook
@@ -83,9 +84,20 @@ REGIONS['my_city'] = {
 
 [What Satellites Reveal About India's Most Transformed Cities](https://abhijitvaidya.substack.com/p/what-satellites-reveal-about-indias)
 
+## Bias Correction (nighttime_lights.py)
+
+This repo includes a Python port of xKDR's [NighttimeLights.jl](https://github.com/xKDR/NighttimeLights.jl) package, which corrects the downward bias in VIIRS data caused by cloud cover (particularly during monsoon months in India). The algorithm is from the paper ["But clouds got in my way"](https://xkdr.org/wp2021-07.html) (Patnaik, Shah, Thomas, 2021).
+
+The correction works well for established urban areas (Srinagar: ~12% noise reduction, smoother monsoon dips) but can overcorrect for rapidly growing small towns like Ayodhya where real growth gets misclassified as outlier noise.
+
+```python
+from nighttime_lights import clean_complete
+cleaned_datacube, mask = clean_complete(radiance_cube, cfobs_cube, threshold=0.4)
+```
+
 ## Credits
 
-- **xKDR Forum** for the original paper and methodology that inspired this work
+- **xKDR Forum** for the original [paper](https://www.xkdr.org/paper/shedding-light-on-the-russia-ukraine-war), methodology, and [NighttimeLights.jl](https://github.com/xKDR/NighttimeLights.jl) package that inspired this work
 - **NOAA** for the VIIRS nighttime lights data
 - **Google Earth Engine** for data access infrastructure
 
