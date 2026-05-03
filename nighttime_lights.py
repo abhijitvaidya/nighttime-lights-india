@@ -22,7 +22,7 @@ from typing import List, Optional, Tuple, Union
 import numpy as np
 import pandas as pd
 from scipy import stats
-from scipy.interpolate import UnivariateSpline
+from scipy.interpolate import UnivariateSpline  # kept for backwards compat
 
 
 # ---------------------------------------------------------------------------
@@ -328,6 +328,16 @@ def rank_correlation_test(
     """Test for significant Spearman correlation between detrended radiance
     and cloud-free observations.
 
+    Matches the Julia NighttimeLights.jl implementation exactly:
+    - Detrends radiance only (not ncfobs).
+    - Computes Spearman rank correlation.
+    - Uses the Julia ``t_test`` formula with its operator-precedence
+      behavior: ``stat = r * sqrt((n-2)/1 - r^2)`` which evaluates as
+      ``r * sqrt(n - 2 - r^2)`` rather than the textbook
+      ``r * sqrt((n-2)/(1-r^2))``.
+    - Returns a one-tailed (right) p-value, matching Julia's
+      ``pvalue(TDist(n-2), stat, tail=:right)``.
+
     Parameters
     ----------
     radiance_ts : np.ndarray
@@ -338,8 +348,10 @@ def rank_correlation_test(
     Returns
     -------
     float
-        Two-sided p-value from ``scipy.stats.spearmanr``.
+        One-tailed (right) p-value matching Julia's implementation.
     """
+    from scipy.stats import t as t_dist
+
     radiance_ts = np.asarray(radiance_ts, dtype=float)
     ncfobs_ts = np.asarray(ncfobs_ts, dtype=float)
 
@@ -347,10 +359,17 @@ def rank_correlation_test(
         return 1.0  # not enough data
 
     y_detrended = detrend_ts(radiance_ts)
-    corr, p_value = stats.spearmanr(y_detrended, ncfobs_ts)
+    corr, _ = stats.spearmanr(y_detrended, ncfobs_ts)
 
-    if np.isnan(p_value):
+    if np.isnan(corr):
         return 1.0
+
+    n = len(y_detrended)
+    # Match Julia operator precedence: r * sqrt((n-2)/1 - r^2)
+    # which is r * sqrt(n - 2 - r^2)
+    stat = corr * np.sqrt((n - 2) / 1 - corr ** 2)
+    # One-tailed, right tail
+    p_value = 1.0 - t_dist.cdf(stat, n - 2)
 
     return float(p_value)
 
@@ -362,7 +381,7 @@ def rank_correlation_test(
 def bias_PSTT2021_pixel(
     radiance_ts: np.ndarray,
     ncfobs_ts: np.ndarray,
-    smoothing_param: float = 10.0,
+    smoothing_param: float = 0.09,
 ) -> np.ndarray:
     """Cloud-bias correction for a single pixel time series.
 
@@ -382,17 +401,19 @@ def bias_PSTT2021_pixel(
         1-D radiance time series (may contain NaN).
     ncfobs_ts : np.ndarray
         1-D cloud-free observations, same length.
-    smoothing_param : float, default 10.0
-        Smoothing parameter for the spline fit.  Passed as ``s=len(x)``
-        to ``scipy.interpolate.UnivariateSpline`` by default, producing
-        comparable smoothing to Julia's ``SmoothingSpline`` with
-        ``lambda=10.0``.
+    smoothing_param : float, default 0.09
+        Smoothing parameter for the penalized cubic spline (``csaps``).
+        This is the ``smooth`` parameter in [0, 1] where 0 = linear,
+        1 = interpolation.  The value 0.09 was calibrated to match
+        Julia's ``SmoothingSplines.jl`` with ``lambda=10.0``.
 
     Returns
     -------
     np.ndarray
         Bias-corrected radiance time series, same length as input.
     """
+    from csaps import csaps
+
     radiance_ts = np.asarray(radiance_ts, dtype=float).copy()
     ncfobs_ts = np.asarray(ncfobs_ts, dtype=float).copy()
 
@@ -415,16 +436,19 @@ def bias_PSTT2021_pixel(
     y_detrended = detrend_ts(y)
     trend = y - y_detrended
 
-    # 3. Fit smoothing spline: y_detrended ~ x (ncfobs)
-    # Sort by x for UnivariateSpline (requires sorted input)
-    sort_idx = np.argsort(x)
-    x_sorted = x[sort_idx]
-    y_det_sorted = y_detrended[sort_idx]
+    # 3. Fit penalized cubic smoothing spline (matches Julia SmoothingSplines.jl)
+    # Julia's SmoothingSpline maps duplicate x values to the same prediction,
+    # so we average y at duplicate x values and use counts as weights.
+    unique_x = np.sort(np.unique(x))
+    y_means = np.array([y_detrended[x == xi].mean() for xi in unique_x])
+    weights = np.array([float(np.sum(x == xi)) for xi in unique_x])
 
     try:
-        spline = UnivariateSpline(x_sorted, y_det_sorted, s=len(x))
-        # 4. Predictions at original (unsorted) x values
-        m = spline(x)
+        m_unique = csaps(unique_x, y_means, unique_x,
+                         smooth=smoothing_param, weights=weights)
+        # Map predictions back to original x positions
+        x_to_m = dict(zip(unique_x, m_unique))
+        m = np.array([x_to_m[xi] for xi in x])
     except Exception:
         return radiance_ts  # spline fitting failed; return uncorrected
 
