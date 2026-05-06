@@ -325,18 +325,20 @@ def rank_correlation_test(
     radiance_ts: np.ndarray,
     ncfobs_ts: np.ndarray,
 ) -> float:
-    """Test for significant Spearman correlation between detrended radiance
-    and cloud-free observations.
+    """Test for significant positive Spearman correlation between detrended
+    radiance and cloud-free observations.
 
-    Matches the Julia NighttimeLights.jl implementation exactly:
+    Steps:
     - Detrends radiance only (not ncfobs).
     - Computes Spearman rank correlation.
-    - Uses the Julia ``t_test`` formula with its operator-precedence
-      behavior: ``stat = r * sqrt((n-2)/1 - r^2)`` which evaluates as
-      ``r * sqrt(n - 2 - r^2)`` rather than the textbook
-      ``r * sqrt((n-2)/(1-r^2))``.
-    - Returns a one-tailed (right) p-value, matching Julia's
-      ``pvalue(TDist(n-2), stat, tail=:right)``.
+    - Uses the textbook t-test formula: stat = r * sqrt((n-2)/(1-r^2)).
+    - Returns a one-tailed (right) p-value testing H1: rho > 0.
+
+    Note: The Julia NighttimeLights.jl has an operator-precedence bug
+    where ``r * sqrt((n-2)/1 - r^2)`` evaluates as ``r * sqrt(n-2-r^2)``
+    instead of the correct ``r * sqrt((n-2)/(1-r^2))``. This Python
+    version uses the correct formula. The practical difference is small
+    for typical sample sizes (n > 50).
 
     Parameters
     ----------
@@ -348,7 +350,7 @@ def rank_correlation_test(
     Returns
     -------
     float
-        One-tailed (right) p-value matching Julia's implementation.
+        One-tailed (right) p-value.
     """
     from scipy.stats import t as t_dist
 
@@ -365,10 +367,11 @@ def rank_correlation_test(
         return 1.0
 
     n = len(y_detrended)
-    # Match Julia operator precedence: r * sqrt((n-2)/1 - r^2)
-    # which is r * sqrt(n - 2 - r^2)
-    stat = corr * np.sqrt((n - 2) / 1 - corr ** 2)
-    # One-tailed, right tail
+    # Correct textbook formula for t-test of Spearman correlation
+    if abs(corr) >= 1.0:
+        return 0.0 if corr > 0 else 1.0
+    stat = corr * np.sqrt((n - 2) / (1 - corr ** 2))
+    # One-tailed, right tail (H1: rho > 0)
     p_value = 1.0 - t_dist.cdf(stat, n - 2)
 
     return float(p_value)
